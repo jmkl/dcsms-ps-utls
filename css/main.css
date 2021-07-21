@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+div,
+img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+}
+
+
+/* SECTION @TAB */
+
+.sp-tabs {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: content;
+}
+
+.sp-tab {
+    flex: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 2px;
+    background-color: rgb(0, 0, 0, .2);
+}
+
+.sp-tab sp-label {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.sp-tab:hover sp-label {
+    color: white;
+}
+
+.sp-tab.selected {
+    background-color: rgb(0, 0, 0, .4);
+}
+
+.sp-tab.selected sp-label {
+    color: white;
+}
+
+
+/* SECTION TABPAGE */
+
+.sp-tab-page {
+    display: none;
+    flex: content;
+    overflow: scroll;
+    padding: 0px 0px;
+    flex-direction: column;
+}
+
+.sp-tab-page.visible {
+    display: flex;
+}
+
+.sp-tab-page>* {
+    flex: 1 1 auto;
+}
+
+.tooltip {
+    height: 100%;
+}
+
+#btn-align .btn-main-panel img {
+    pointer-events: none;
+}
