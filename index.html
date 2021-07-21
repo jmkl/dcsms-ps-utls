@@ -67,7 +67,14 @@
         <!-- tabs page -->
         <div class="sp-tab-page visible" id="tab-main-tab-page">
             <div class="content-container">
-                <div class="btn-group" id="btn-main-group">
+                <div class="horizontalgroup">
+                    <sp-dropdown placeholder="BatchPlay" class="batchplay_list">
+                        <sp-menu class="batchplay_list_items" slot="options">
+                        </sp-menu>
+                    </sp-dropdown>
+                    <sp-action-button class="batchplay_run">Run BatchPlay</sp-action-button>
+                </div>
+                <div class="btn-group" id="btn-main-group" style="display: none;">
                     <div class="btn_main_panel" id="btn-newdoc"><img src="icons/newdoc.png" height="18"></div>
                     <div class="btn_main_panel" id="btn-create"><img src="icons/create.png" height="18"></div>
                     <div class="btn_main_panel" id="btn-select"><img src="icons/select.png" width="18"></div>
@@ -76,13 +83,10 @@
                     <div class="btn_main_panel" id="btn-paste"><img src="icons/paste.png" width="18"></div>
                     <div class="btn_main_panel" id="btn-fit"><img src="icons/fitimage.png" width="18"></div>
                     <div class="btn_main_panel" id="btn-save"><img src="icons/save.png" width="18"></div>
-                    <sp-tooltip placement="right" class="tooltip" variant="info">
-                        <sp-icon size="s" name="ui:CheckmarkSmall" slot="icon"></sp-icon>
-                        Saved
-                    </sp-tooltip>
+
                 </div>
 
-                <sp-label size="XXS" class="dir_info">...</sp-label>
+
 
                 <div class="textlist">
 
@@ -109,6 +113,11 @@
                     <div class="btn-main-panel" id="arrange"><img src="icons/arrange.png" width="18"></div>
                 </div>
                 <div class="btn-group" id="btn-align"></div>
+                <sp-label size="XXS" class="dir_info">...</sp-label>
+                <sp-tooltip placement="right" class="tooltip" variant="info">
+                    <sp-icon size="s" name="ui:CheckmarkSmall" slot="icon"></sp-icon>
+                    Saved
+                </sp-tooltip>
             </div>
         </div>
 
@@ -126,7 +135,7 @@
             <div id="search-loading">
 
                 <img id="loading-image" src="icons/loading.gif" alt="Loading..." />
-                <sp-label>Hello</sp-label>
+
             </div>
             <div class="horizontalgroup" id="search-panel">
                 <div class="search-icon">

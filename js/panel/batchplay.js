@@ -134,6 +134,18 @@ class cmd {
             "_isCommand": true
         }
     }
+    static selectLayerByName(layerName) {
+
+        return {
+            "_obj": "select",
+            "_target": [{
+                "_ref": "layer",
+                "_name": layerName
+            }],
+            "makeVisible": true,
+            "_isCommand": true
+        }
+    }
     static selectLayer(layerID) {
         console.log(layerID);
         return {

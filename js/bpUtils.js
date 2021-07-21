@@ -616,6 +616,8 @@ async function getTokenFor(doc) {
                 resolve(TOKEN.REFLY);
             } else if (l.name.toLowerCase().includes("neno")) {
                 resolve(TOKEN.NENO);
+            } else {
+                resolve(null);
             }
 
         })

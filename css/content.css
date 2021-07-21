@@ -79,7 +79,7 @@
 #content {
     display: block;
     width: 100%;
-    height: 130px;
+    height: 70px;
     margin: 5px 0px;
     padding: 5px;
     font-size: .7em;
@@ -198,16 +198,20 @@
     left: 0;
     text-align: center;
     z-index: 999;
+    background: #323232;
 }
 
 #loading-image {
     position: relative;
-    width: 90%;
-    border-radius: 10%;
-    height: auto;
+    object-fit: cover;
+    width: 150px;
+    border-radius: 100%;
+    height: 150px;
     opacity: 40%;
     margin: auto;
-    margin-top: 120px;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
     z-index: 100;
     border: 10px solid #262626;
 }

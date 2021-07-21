@@ -23,7 +23,7 @@ entrypoints.setup({
                         reloadPlugin();
                         break;
                     case "showDialog":
-                        alert("Hehe");
+
                         break;
                 }
             }

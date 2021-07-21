@@ -3,6 +3,11 @@ async function getToken(key, reset, onlycheck) {
         localStorage.removeItem(key);
     }
 
+    if (key == null || key == undefined) {
+        const entry = await fs.getFolder();
+        return Promise.resolve(entry);
+    }
+
     const pte = localStorage.getItem(key)
     let entryobject;
     try {

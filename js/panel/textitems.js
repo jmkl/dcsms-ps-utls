@@ -1,6 +1,9 @@
 const { cmd, runbatchPlay } = require("./batchplay.js");
+const { bpList } = require("./batchplaylist.js")
+
 
 const textlists = document.querySelector(".textlist");
+bpList();
 
 function createTextListItem(data) {
     const item = document.createElement("div");
@@ -303,6 +306,64 @@ divider.className = "btn-menu-divider";
                 }
                 break;
             case "save":
+                const doc = await app.activeDocument;
+                savepathtoken = await getToken(await getTokenFor(doc), false, false);
+                if (savepathtoken == undefined) {
+                    return;
+                }
+                if (doc.title.includes("Untitled")) {
+                    let num = 0;
+                    let listfiles = getMaxName(await savepathtoken.getEntries())
+                    if (listfiles == -Infinity)
+                        listfiles = 0
+                    num = listfiles + 1;
+                    doSaveDoc(num);
+                } else if (doc.title.includes(".psd")) {
+                    doSaveDoc(doc.title.replace(".psd", ""));
+                }
+                async function doSaveDoc(namafile) {
+
+
+                    try {
+
+                        const newJPG = await savepathtoken.createFile(namafile + ".jpeg", { overwrite: true });
+                        const newPSD = await savepathtoken.createFile(namafile + ".psd", { overwrite: true });
+                        const saveJPEG = await fs.createSessionToken(newJPG);
+                        const savePSD = await fs.createSessionToken(newPSD);
+                        const result = await batchPlay([cmdSavePSD(savePSD), cmdSave(saveJPEG)], {
+                            "synchronousExecution": true,
+                            "modalBehavior": "fail"
+                        });
+                        if (result) {
+                            try {
+                                var xhr = new XMLHttpRequest();
+                                xhr.onreadystatechange = async function() {
+                                    if (xhr.readyState == 4) {
+                                        const result = JSON.parse(xhr.response)
+                                        if (result) {
+
+                                            tooltip.setAttribute("open");
+                                            new Promise((resolve, reject) => {
+                                                setTimeout(() => {
+                                                    tooltip.removeAttribute("open");
+                                                    resolve(1);
+                                                }, 3000);
+                                            })
+
+                                        }
+                                    }
+                                }
+                                xhr.open('POST', 'http://localhost:5005');
+                                xhr.setRequestHeader('Content-Type', 'application/json');
+                                xhr.send(JSON.stringify({ d: result[1].in._path }));
+                            } catch (error) {}
+
+                        }
+                    } catch (err) {
+                        Logger(this.name, error)
+                    }
+                }
+
                 break;
             case "create":
                 top_pos = 0;
@@ -320,7 +381,6 @@ divider.className = "btn-menu-divider";
                     for (let x = 0; x < layers.length; x++) {
                         const layer = layers[x];
                         if (layer.name == "dcsmstext") {
-
                             const texts = newtexts.filter((e) => !e.includes("$"));
                             console.log(texts);
                             await insertTexts(layer, texts)
@@ -330,12 +390,17 @@ divider.className = "btn-menu-divider";
                         }
                     }
 
+                    await runbatchPlay(cmd.selectLayerByName("core"),
+                        cmd.alignTexts(ALIGNME.HOR, true),
+                        cmd.alignTexts(ALIGNME.VER, true))
+
+
                 }).catch((error) => {
                     console.log(error)
                 })
 
 
-                //await bputilsDoText(newtexts);
+
 
                 break;
             case "newdoc":
