@@ -18,7 +18,6 @@ include(
     "js/index.js",
     "js/bpUtils.js",
     "js/globalUtils.js",
-    "js/Token.js",
     "js/panel/mainpanel.js",
     "js/panel/batchplayMain.js",
     "js/panel/pexelpanel.js",

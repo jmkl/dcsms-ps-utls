@@ -12,7 +12,8 @@ const TOKEN = {
     SAVE: "Save Location",
     NAUFAL: "Folder Naufal",
     REFLY: "Folder Refly",
-    NENO: "Folder Neno"
+    NENO: "Folder Neno",
+    BATCHPLAY: "Folder BatchPlay"
 
 };
 
@@ -606,25 +607,25 @@ function cmdSave(token) {
 }
 
 
-async function getTokenFor(doc) {
-    return new Promise((resolve, reject) => {
-        layers = doc.layers;
-        layers.forEach(async(l) => {
-            if (l.name.toLowerCase().includes("naufal")) {
-                resolve(TOKEN.NAUFAL);
-            } else if (l.name.toLowerCase().includes("refly")) {
-                resolve(TOKEN.REFLY);
-            } else if (l.name.toLowerCase().includes("neno")) {
-                resolve(TOKEN.NENO);
-            } else {
-                resolve(null);
-            }
+// async function getTokenFor(doc) {
+//     return new Promise((resolve, reject) => {
+//         layers = doc.layers;
+//         layers.forEach(async(l) => {
+//             if (l.name.toLowerCase().includes("naufal")) {
+//                 resolve(TOKEN.NAUFAL);
+//             } else if (l.name.toLowerCase().includes("refly")) {
+//                 resolve(TOKEN.REFLY);
+//             } else if (l.name.toLowerCase().includes("neno")) {
+//                 resolve(TOKEN.NENO);
+//             } else {
+//                 resolve(null);
+//             }
 
-        })
-    })
+//         })
+//     })
 
 
-}
+// }
 
 function setRGB(r, g, b, color) {
     color.color.red = r;

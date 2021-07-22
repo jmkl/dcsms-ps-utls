@@ -67,12 +67,17 @@
         <!-- tabs page -->
         <div class="sp-tab-page visible" id="tab-main-tab-page">
             <div class="content-container">
-                <div class="horizontalgroup">
+                <div class="horizontalgroup bp-group">
                     <sp-dropdown placeholder="BatchPlay" class="batchplay_list">
                         <sp-menu class="batchplay_list_items" slot="options">
                         </sp-menu>
                     </sp-dropdown>
-                    <sp-action-button class="batchplay_run">Run BatchPlay</sp-action-button>
+                    <div class="btn-group">
+
+                        <div class="btn_main_panel batchplay_refresh"><img src="icons/refresh.png" alt=""></div>
+                        <div class="btn_main_panel batchplay_run"><img src="icons/runcmd.png" alt=""></div>
+                    </div>
+
                 </div>
                 <div class="btn-group" id="btn-main-group" style="display: none;">
                     <div class="btn_main_panel" id="btn-newdoc"><img src="icons/newdoc.png" height="18"></div>

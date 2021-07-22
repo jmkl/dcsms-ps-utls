@@ -1,12 +1,10 @@
 async function getToken(key, reset, onlycheck) {
+
     if (reset != undefined && reset) {
         localStorage.removeItem(key);
     }
 
-    if (key == null || key == undefined) {
-        const entry = await fs.getFolder();
-        return Promise.resolve(entry);
-    }
+
 
     const pte = localStorage.getItem(key)
     let entryobject;
@@ -51,4 +49,26 @@ async function getToken(key, reset, onlycheck) {
             .filter((tmplt) => tmplt.name.indexOf("psd") > 0);
         addElementToDropdown(templates);
     })();
+}
+
+async function getTokenFor(doc) {
+    return new Promise(async(resolve, reject) => {
+        const layers = await doc.layers;
+        layers.forEach(async(l) => {
+            if (l.name.toLowerCase().includes("naufal")) {
+                resolve(TOKEN.NAUFAL);
+            } else if (l.name.toLowerCase().includes("refly")) {
+                resolve(TOKEN.REFLY);
+            } else if (l.name.toLowerCase().includes("neno")) {
+                resolve(TOKEN.NENO);
+            }
+
+        })
+    })
+
+
+}
+module.exports = {
+    getToken,
+    getTokenFor
 }

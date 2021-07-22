@@ -2,6 +2,7 @@ const { cmd, runbatchPlay } = require("./batchplay.js");
 const { bpList } = require("./batchplaylist.js")
 
 
+
 const textlists = document.querySelector(".textlist");
 bpList();
 
@@ -34,13 +35,16 @@ function createTextListItem(data) {
 }
 
 async function rearrangeLayer() {
-    return;
+
     const layer = await app.activeDocument.layers;
-    layer.sort((a, b) => b.bounds.top - a.bounds.top).reverse();
+    layer.sort((a, b) => b.bounds.top - a.bounds.top);
     let texts = []
+
     for (l of layer) {
+
         if (l.kind == 3 && l.name == "dcsmstext_tamper") {
-            texts.push(l);
+            if (l.parent.name == core)
+                texts.push(l);
         }
     }
     for (let x = 0; x < texts.length; x++) {
@@ -50,6 +54,13 @@ async function rearrangeLayer() {
         }
     }
 }
+
+(async() => {
+
+    savepathtoken = await getToken(TOKEN.SAVE, false, true)
+    document.querySelector(".dir_info").innerHTML = savepathtoken.nativePath;
+})()
+
 
 async function initiateQueries(isdcsmstext) {
     isdcsmstext ? document.getElementById("content").classList.add("hide") : document.getElementById("content").classList.remove("hide");
@@ -128,7 +139,7 @@ async function getLayerInfo(layer) {
         });
 
         const text = result[0].textKey.textKey;
-        const size = result[0].textKey.textStyleRange[0].textStyle.size._value;
+        const size = result[0].textKey.textStyleRange[0].textStyle.impliedFontSize._value;
         return [text, size, layer._id];
     } catch (err) {
         console.log(err);
@@ -143,7 +154,7 @@ async function getTextLayerData() {
     } else {
         return;
     }
-    for (layer of layers.reverse()) {
+    for (layer of layers) {
         if (layer.kind == 3 && layer.name == "dcsmstext_tamper") {
             createTextListItem(await getLayerInfo(layer));
             isdcsmstext = true;
@@ -175,14 +186,11 @@ require("photoshop").action.addNotificationListener(
         { event: "select" },
         { event: "open" },
         { event: "make" },
-        {
-            event: "close"
-        },
-        {
-            event: "save",
-        },
         { event: "close" },
-        { event: "delete" }, { event: "move" },
+        { event: "save" },
+        { event: "close" },
+        { event: "delete" },
+        { event: "move" },
     ],
     listener
 );
@@ -201,6 +209,7 @@ let _layerids = [];
 
 const buttonAlign = document.getElementById("btn-align");
 const cb_align = document.createElement("sp-checkbox");
+const cb_select_layer = document.createElement("sp-checkbox");
 const divider = document.createElement("div")
 divider.className = "btn-menu-divider";
 ["left", "mid", "right",
@@ -306,11 +315,11 @@ divider.className = "btn-menu-divider";
                 }
                 break;
             case "save":
+
                 const doc = await app.activeDocument;
                 savepathtoken = await getToken(await getTokenFor(doc), false, false);
-                if (savepathtoken == undefined) {
-                    return;
-                }
+
+
                 if (doc.title.includes("Untitled")) {
                     let num = 0;
                     let listfiles = getMaxName(await savepathtoken.getEntries())
@@ -370,7 +379,7 @@ divider.className = "btn-menu-divider";
 
                 const index = dropdown.parentNode.selectedIndex;
                 const template = dropdown.childNodes[index].value;
-                const newtexts = document.getElementById("content").value.trim().split("\r").reverse();
+                const newtexts = document.getElementById("content").value.trim().split("\r");
                 const token = await getToken(TOKEN.TEMPLATE)
                 const theTemplate = await token.getEntry(template);
                 const temptoken = fs.createSessionToken(theTemplate);
@@ -382,7 +391,6 @@ divider.className = "btn-menu-divider";
                         const layer = layers[x];
                         if (layer.name == "dcsmstext") {
                             const texts = newtexts.filter((e) => !e.includes("$"));
-                            console.log(texts);
                             await insertTexts(layer, texts)
                         } else if (layer.name == "dcsmstext_alt") {
                             const texts = newtexts.filter((e) => e.includes("$"));
@@ -390,9 +398,10 @@ divider.className = "btn-menu-divider";
                         }
                     }
 
-                    await runbatchPlay(cmd.selectLayerByName("core"),
+                    await runbatchPlay(cmd.selectLayerByName("dcsms_layer"),
                         cmd.alignTexts(ALIGNME.HOR, true),
                         cmd.alignTexts(ALIGNME.VER, true))
+                    document.dispatchEvent(new CustomEvent("donecreatingtext"))
 
 
                 }).catch((error) => {
@@ -405,15 +414,32 @@ divider.className = "btn-menu-divider";
                 break;
             case "newdoc":
                 await runbatchPlay(cmd.newDocument())
+                document.dispatchEvent(new CustomEvent("donecreatingtext"))
                 break;
             default:
                 break;
+        }
+        if (cb_select_layer.checked) {
+            doStompLayer();
+            return;
         }
         if (cb_layers.length > 0) {
             await runbatchPlay(cmd.selectNoLayer(), cmd.selectLayers(cb_layers.map((e) => parseInt(e.getAttribute("id").replace("cb_", "")))), alignmebitch)
         } else {
             if (alignmebitch) {
                 await runbatchPlay(alignmebitch)
+
+            }
+        }
+
+        async function doStompLayer() {
+            if (cb_select_layer.checked) {
+                try {
+                    const result = await runbatchPlay(cmd.selectNoLayer(), cmd.selectLayerByName("dcsms_layer"), alignmebitch);
+                } catch (err) {
+                    console.log(err)
+                }
+
             }
         }
     });
@@ -453,6 +479,9 @@ cb_align.className = "cb-align";
 cb_align.innerText = "to Canvas";
 buttonAlign.appendChild(divider)
 buttonAlign.appendChild(cb_align);
+cb_select_layer.className = "cb-dcsms_layer";
+cb_select_layer.innerText = "Layers";
+buttonAlign.appendChild(cb_select_layer);
 
 
 document.addEventListener("keydown", async(e) => {

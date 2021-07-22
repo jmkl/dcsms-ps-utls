@@ -1,3 +1,4 @@
+const { getToken, getTokenFor } = require("./js/Token.js")
 const btnGroupMain = document.getElementById("btn-main-group");
 const dropdown = document.querySelector(".template-items");
 const btnadjustment = document.querySelector("#btn-adjustment")
@@ -10,6 +11,7 @@ const btnArrange = document.getElementById("arrange");
 const trigger = document.querySelector(".trigger");
 const wrapper = document.querySelector(".wrapper");
 const tooltip = document.querySelector(".tooltip");
+
 
 let savepathtoken = null;
 document.addEventListener("mousemove", async(e) => {
@@ -24,7 +26,7 @@ trigger.addEventListener("mouseleave", (e) => {
 function showsSaveDirStatus(message) { document.querySelector(".dir_info").innerHTML = message; }
 
 (async() => {
-    let token = await getToken(TOKEN.TEMPLATE);
+    let token = await getToken(TOKEN.TEMPLATE, false, false);
     const templates = (await token.getEntries())
         .filter((tmplt) => tmplt.name.indexOf("psd") > 0);
     addElementToDropdown(templates)
@@ -33,7 +35,8 @@ document.getElementById("content").value = "Lorem ipsum\r$dolor sit amet\rconsec
 
 
 document.getElementById("btn-template").addEventListener("click", async(e) => {
-    token = await getToken(TOKEN.TEMPLATE);
+    token = await getToken(TOKEN.TEMPLATE, false, false);
+    console.log(token);
     const templates = (await token.getEntries())
         .filter((tmplt) => tmplt.name.indexOf("psd") > 0);
     addElementToDropdown(templates)
@@ -94,11 +97,7 @@ async function addElementToDropdown(templates) {
 }
 
 
-(async() => {
 
-    savepathtoken = await getToken(TOKEN.SAVE, false, true)
-    document.querySelector(".dir_info").innerHTML = savepathtoken.nativePath;
-})()
 let topx = 0;
 async function moveLayer(layer) {
     const lyr = await layer.boundsNoEffects;

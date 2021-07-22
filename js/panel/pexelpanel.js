@@ -165,7 +165,6 @@ imagedownload.addEventListener("click", async(e) => {
     await pexelpaneltoken.getEntry(namafile).then(async(response) => {
         placeImageonDocument(await fs.createSessionToken(response))
     }).catch(async(err) => {
-
         await fetch(imageurl).then((resp) => {
             if (!resp.ok) {
                 throw new Error("Error :" + resp.status)
@@ -183,6 +182,9 @@ imagedownload.addEventListener("click", async(e) => {
             doLoadonSearch(false);
             imagepreview.style.display = "none";
         })
+
+
+
     })
 
 })

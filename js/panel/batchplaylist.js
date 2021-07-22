@@ -2,6 +2,8 @@ const { runbatchPlay } = require("./batchplay")
 async function bpList() {
     const bplist_items = document.querySelector(".batchplay_list_items");
     const bplist_button = document.querySelector(".batchplay_run");
+    const bplist_refresh = document.querySelector(".batchplay_refresh");
+    let bplist_token = null;
 
     async function addElementToDropdown(templates) {
         while (bplist_items.firstChild)
@@ -16,31 +18,39 @@ async function bpList() {
         bplist_items.selectedIndex = 0;
         template = bplist_items.childNodes[0].value;
     }
-    async function getBPListFolder() {
-        let token = await fs.getPluginFolder();
-        return await token.getEntry("batchplay");
+    async function getBPListFolder(reset = false) {
+        bplist_token = await getToken(TOKEN.BATCHPLAY, reset, false)
+
 
     }
 
-    const tmp = await getBPListFolder();
-    const templates = (await tmp.getEntries())
+    await getBPListFolder();
+    const templates = (await bplist_token.getEntries())
         .filter((tmplt) => tmplt.name.indexOf("json") > 0);
     addElementToDropdown(templates)
-
+    bplist_refresh.addEventListener("click", async(e) => {
+        await getBPListFolder(true);
+        const templates = (await bplist_token.getEntries())
+            .filter((tmplt) => tmplt.name.indexOf("json") > 0);
+        addElementToDropdown(templates)
+    })
     bplist_button.addEventListener("click", async(e) => {
         const template = bplist_items.childNodes[bplist_items.parentNode.selectedIndex].value;
-        getBPListFolder().then(async(res) => {
-            await res.getEntry(template).then(async(e) => {
-                const cmd = JSON.parse(await e.read());
-                console.log(cmd);
-                try {
-                    await runbatchPlay(...cmd);
+        if (bplist_token == null) {
+            await getBPListFolder();
+        }
 
-                } catch (err) {
-                    console.log(err)
-                }
-            })
+        await bplist_token.getEntry(template).then(async(e) => {
+            const cmd = JSON.parse(await e.read());
+            console.log(cmd);
+            try {
+                await runbatchPlay(...cmd);
+
+            } catch (err) {
+                console.log(err)
+            }
         })
+
 
 
     })
