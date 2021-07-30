@@ -109,8 +109,17 @@
     text-align: center;
     margin: auto 0px;
     margin-bottom: -7px;
-    padding: 2px;
-    width: 150px;
+    width: 100%;
+    display: flex;
+}
+
+.search-icon img {
+    height: 26px;
+}
+
+.largeimage {
+    margin-left: auto;
+    margin-bottom: -7px;
 }
 
 #search-textfield {
@@ -404,4 +413,13 @@
 
 .bp-group .btn-group img {
     width: 20px;
+}
+
+.ws-status {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 4px;
+    right: 10px;
+    border-radius: 20px;
 }

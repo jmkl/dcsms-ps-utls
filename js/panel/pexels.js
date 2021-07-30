@@ -2,15 +2,17 @@ class Pexels {
     static api_key = "563492ad6f91700001000001b7f8998eacb449ceba4325318182d154";
     static api_url = "https://api.pexels.com/v1/search"
     static duckduckgo = "https://hellogis.herokuapp.com/?key="
+        //static google = "https://dcsms-gis.herokuapp.com/?key="
+    static google = "http://localhost:5000/?key="
 
     constructor() {
 
     }
-    doRequest(url) {
+    doRequest(url, searchEngine) {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
             const method = "GET";
-            req.timeout = 6000;
+            req.timeout = 15000;
             req.onload = () => {
                 if (req.status === 200) {
                     try {
@@ -32,16 +34,31 @@ class Pexels {
                 reject(err)
             }
             req.open(method, url, true);
-            if (isPexel)
+            if (searchEngine == "pexels")
                 req.setRequestHeader('Authorization', Pexels.api_key);
             req.send();
         })
     }
-    getImages(keyword, isPexel) {
+    getImages(keyword, searchEngine, islarge) {
         return new Promise(async(resolve, reject) => {
-            const url = isPexel ? `${Pexels.api_url}?query=${keyword.replace(" ","+")}&per_page=60` : `${Pexels.duckduckgo}${keyword.replace(" ","%20")}`;
+            let url = "";
+            switch (searchEngine) {
+                case "pexels":
+                    url = `${Pexels.api_url}?query=${keyword.replace(" ","+")}&per_page=60`;
+                    break;
+                case "duckgo":
+                    url = `${Pexels.duckduckgo}${keyword.replace(" ","%20")}`;
+                    break;
+                case "google":
+                    url = `${Pexels.google}${keyword.replace(" ","%20")}${islarge?"&size=l":""}`;
+                    break;
+                default:
+                    break;
+            }
+
             try {
-                const result = await this.doRequest(url);
+                console.log(url);
+                const result = await this.doRequest(url, searchEngine);
                 resolve(result);
             } catch (err) {
                 console.log(err)

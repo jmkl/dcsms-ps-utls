@@ -1,3 +1,16 @@
+var PhotoshopCore = require('photoshop').core;
+async function runCommand(menuString) {
+    await PhotoshopCore.performMenuCommand({
+        title: PhotoshopCore.translateUIString(menuString)
+    });
+}
+async function runCommandID(id) {
+    await PhotoshopCore.performMenuCommand({
+        commandID: id,
+        kcanDispatchWhileModal: true,
+        _isCommand: false
+    });
+}
 async function runbatchPlay(...cmd) {
     return await batchPlay([...cmd], {
         "synchronousExecution": true,
@@ -291,5 +304,7 @@ class cmd {
 }
 module.exports = {
     runbatchPlay,
-    cmd
+    cmd,
+    runCommand,
+    runCommandID
 }

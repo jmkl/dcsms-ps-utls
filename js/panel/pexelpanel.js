@@ -1,9 +1,14 @@
 const { Pexels, COL, ORIENTATION } = require("./js/panel/pexels.js");
 const pexels = new Pexels();
+const { MyWebSocket } = require("./js/panel/socket.js")
 const md5 = require("./js/md5.js")
 let pexelpaneltoken;
-let isPexel = true;
-
+let searchEngine = null;
+const SE = {
+    pexels: "pexels",
+    duckgo: "duckgo",
+    google: "google"
+}
 
 
 
@@ -16,25 +21,32 @@ const imagepreview = document.getElementById("image-preview");
 const imagepreview_img = document.getElementById("image-preview-img");
 const imageinfo = document.getElementById("image-info");
 const imagedownload = document.getElementById("image-download");
+const islarge = document.querySelector(".largeimage");
 
+let enginemarker = 0;
 
+function moveEngineMarker(action, direction, arrdt) {
+    if (!direction) {
+        enginemarker = (enginemarker + 1) % arrdt.length;
+    } else {
+        enginemarker = (enginemarker + arrdt.length - 1) % arrdt.length;
+    }
+    action(arrdt[enginemarker]);
+}
 searchSwitch();
 
 function searchSwitch() {
-    isPexel = !isPexel;
-    document.querySelector(".icon_pexels").style.visibility = isPexel ?
-        "visible" :
-        "hidden";
-    document.querySelector(".icon_pexels").style.display = isPexel ?
-        "block" :
-        "none";
-    document.querySelector(".icon_ddg").style.visibility = !isPexel ?
-        "visible" :
-        "hidden";
-    ``
-    document.querySelector(".icon_ddg").style.display = !isPexel ?
-        "block" :
-        "none";
+    const engine = document.querySelectorAll(".searchengine");
+    for (e of engine) {
+        e.style.display = "none";
+        islarge.style.display = "none";
+    }
+    moveEngineMarker(async(button) => {
+        button.style.display = "block";
+        searchEngine = button.getAttribute("engine");
+        if (searchEngine == SE.google)
+            islarge.style.display = "flex";
+    }, false, engine);
 }
 
 searchTextField.addEventListener("keyup", (e) => {
@@ -80,7 +92,7 @@ function doSearchImages(keyword) {
 
     doLoadonSearch(true);
     try {
-        pexels.getImages(keyword, isPexel).then((result) => {
+        pexels.getImages(keyword, searchEngine, islarge.checked).then((result) => {
             doLoadonSearch(false);
 
             parseResult(result);
@@ -91,32 +103,32 @@ function doSearchImages(keyword) {
 
 
 }
-(async() => {
-
-    // const pluginfolder = await fs.getPluginFolder()
-    // const file = await pluginfolder.getEntry("jokowi.json");
-    // const jokowi = await file.read();
-    // try {
-
-    //     isPexel = false;
-    //     parseResult(jokowi)
-    // } catch (error) {
-    //     console.log(error)
-
-    // }
 
 
-})()
+function createImage(photo) {
+    let thumb;
+    let original;
+    let detail;
+    switch (searchEngine) {
+        case "pexels":
+            thumb = photo.src.tiny;
+            original = photo.src.original;
+            detail = `${photo.width} x ${photo.height} px`;
+            break;
+        case "duckgo":
+            thumb = "https://external-content.duckduckgo.com/iu/?u=" + encodeURIComponent(photo.thumbnail);
+            original = photo.image;
+            detail = `${photo.width} x ${photo.height} px`;
+            break;
+        case "google":
+            thumb = photo.thumbnail;
+            original = photo.url;
+            detail = `${photo.width} x ${photo.height} px`;
+            break;
+        default:
+            break;
+    }
 
-function createImage(thumb, original, detail) {
-
-    //     const div = document.createElement("figure");
-    //     div.className = "search-img"
-    //     const el = document.createElement("img");
-    //     el.src = `img/${e}`;
-    //     el.className = "img";
-    //     div.appendChild(el);
-    //     searchImages.appendChild(div);
 
     const div = document.createElement("figure");
     div.className = "search-img";
@@ -124,7 +136,7 @@ function createImage(thumb, original, detail) {
     el.className = "thumbimage";
     el.setAttribute("value", original);
     el.setAttribute("info", detail)
-    if (!isPexel) {
+    if (searchEngine == SE.duckgo) {
         el.setAttribute("dl-url", "https://external-content.duckduckgo.com/iu/?u=" + encodeURIComponent(original) + "&f=1&nofb=1")
     }
     el.src = thumb;
@@ -136,14 +148,13 @@ function parseResult(res) {
     while (searchImages.firstChild)
         searchImages.removeChild(searchImages.firstChild)
     const response = JSON.parse(res)
-    const result = isPexel ? response.photos : response;
+    const result = searchEngine == SE.pexels ? response.photos : response;
 
     for (let i = 0; i < result.length; i++) {
         const photo = result[i];
-        const img = isPexel ? createImage(photo.src.tiny, photo.src.original, `${photo.width} x ${photo.height} px`) : createImage("https://external-content.duckduckgo.com/iu/?u=" + encodeURIComponent(photo.thumbnail), photo.image, `${photo.width} x ${photo.height} px`);
+        const img = createImage(photo);
         searchImages.appendChild(img);
         img.addEventListener("click", async(event) => {
-
             imagepreview.style.display = "flex";
             imagepreview_img.setAttribute("src", event.target.getAttribute("src"))
             imagepreview_img.setAttribute("value", event.target.getAttribute("value"))
@@ -154,18 +165,35 @@ function parseResult(res) {
 imagepreview_img.addEventListener("click", (e) => {
     imagepreview.style.display = "none";
 })
-imagedownload.addEventListener("click", async(e) => {
-    if (pexelpaneltoken)
+
+
+
+
+async function imageDownloadListener(url) {
+
+    if (pexelpaneltoken == null || pexelpaneltoken == undefined)
         pexelpaneltoken = await getToken(TOKEN.IMAGES, false, false);
-
-
-    let imageurl = isPexel ? imagepreview_img.getAttribute("value") : "https://external-content.duckduckgo.com/iu/?u=" + encodeURIComponent(imagepreview_img.getAttribute("value")) + "&f=1&nofb=1";
+    let imageurl = null;
+    if (url == undefined)
+        imageurl = searchEngine != SE.duckgo ? imagepreview_img.getAttribute("value") : "https://external-content.duckduckgo.com/iu/?u=" + encodeURIComponent(imagepreview_img.getAttribute("value")) + "&f=1&nofb=1";
+    else
+        imageurl = url;
     doLoadonSearch(true)
     const namafile = md5(imageurl) + ".jpg";
+    try {
+        console.log(await pexelpaneltoken.getEntry(namafile));
+    } catch (err) {
+        console.log(err)
+    }
+
+
     await pexelpaneltoken.getEntry(namafile).then(async(response) => {
+        console.log(response);
         placeImageonDocument(await fs.createSessionToken(response))
     }).catch(async(err) => {
+        console.log(err);
         await fetch(imageurl).then((resp) => {
+
             if (!resp.ok) {
                 throw new Error("Error :" + resp.status)
             }
@@ -186,7 +214,9 @@ imagedownload.addEventListener("click", async(e) => {
 
 
     })
-
+}
+imagedownload.addEventListener("click", (e) => {
+    imageDownloadListener()
 })
 
 async function placeImageonDocument(token) {
@@ -194,4 +224,12 @@ async function placeImageonDocument(token) {
     await bputilsFitLayer(true);
     doLoadonSearch(false);
     imagepreview.style.display = "none";
+    document.querySelector('.ws-status').style.background = "green";
 }
+
+const websocket = new MyWebSocket();
+websocket.bind(document.querySelector('.ws-status'), imageDownloadListener)
+document.querySelector('.ws-status').addEventListener('click', () => {
+    websocket.bind(document.querySelector('.ws-status'), imageDownloadListener)
+
+})

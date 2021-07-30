@@ -1,10 +1,15 @@
-const { cmd, runbatchPlay } = require("./batchplay.js");
+const { cmd, runbatchPlay, runCommand } = require("./batchplay.js");
 const { bpList } = require("./batchplaylist.js")
+const { MyWebSocket } = require("./socket.js")
 
 
+const websocket = new MyWebSocket();
 
 const textlists = document.querySelector(".textlist");
 bpList();
+(async() => {
+    //console.log(runCommand(-354))
+})()
 
 function createTextListItem(data) {
     const item = document.createElement("div");
@@ -24,15 +29,24 @@ function createTextListItem(data) {
     _cblayer.setAttribute("id", "cb_" + data[2]);
     _cblayer.className = "cb_layer";
     textsize.setAttribute("data-id", data[2]);
+
     item.appendChild(_cblayer)
     item.appendChild(textitem);
     item.appendChild(textsize);
     textlists.appendChild(item);
     setTimeout(() => {
         textitem.focus();
+        setTimeout(() => {
 
-    }, 100);
+            textitem.setAttribute("disabled", "disabled")
+        }, 500)
+
+    }, 300);
+    textsize.addEventListener('click', (e) => {
+        textitem.getAttribute("disabled") == "disabled" ? textitem.removeAttribute("disabled") : textitem.setAttribute("disabled", "disabled")
+    })
 }
+
 
 async function rearrangeLayer() {
 
@@ -344,28 +358,46 @@ divider.className = "btn-menu-divider";
                             "modalBehavior": "fail"
                         });
                         if (result) {
-                            try {
-                                var xhr = new XMLHttpRequest();
-                                xhr.onreadystatechange = async function() {
-                                    if (xhr.readyState == 4) {
-                                        const result = JSON.parse(xhr.response)
-                                        if (result) {
+                            websocket.sendMessage(JSON.stringify({
+                                type: "filepath",
+                                fromserver: false,
+                                data: result[1].in._path
+                            }));
+                            websocket.websocket.onmessage = evt => {
+                                    const result = JSON.parse(evt.data);
+                                    if (result.fromserver) {
+                                        // tooltip.setAttribute("open");
+                                        // new Promise((resolve, reject) => {
+                                        //     setTimeout(() => {
+                                        //         tooltip.removeAttribute("open");
+                                        //         resolve(1);
+                                        //     }, 3000);
+                                        // })
 
-                                            tooltip.setAttribute("open");
-                                            new Promise((resolve, reject) => {
-                                                setTimeout(() => {
-                                                    tooltip.removeAttribute("open");
-                                                    resolve(1);
-                                                }, 3000);
-                                            })
-
-                                        }
                                     }
                                 }
-                                xhr.open('POST', 'http://localhost:5005');
-                                xhr.setRequestHeader('Content-Type', 'application/json');
-                                xhr.send(JSON.stringify({ d: result[1].in._path }));
-                            } catch (error) {}
+                                // try {
+                                //     var xhr = new XMLHttpRequest();
+                                //     xhr.onreadystatechange = async function() {
+                                //         if (xhr.readyState == 4) {
+                                //             const result = JSON.parse(xhr.response)
+                                //             if (result) {
+
+                            //                 tooltip.setAttribute("open");
+                            //                 new Promise((resolve, reject) => {
+                            //                     setTimeout(() => {
+                            //                         tooltip.removeAttribute("open");
+                            //                         resolve(1);
+                            //                     }, 3000);
+                            //                 })
+
+                            //             }
+                            //         }
+                            //     }
+                            //     xhr.open('POST', 'http://localhost:5005');
+                            //     xhr.setRequestHeader('Content-Type', 'application/json');
+                            //     xhr.send(JSON.stringify({ d: result[1].in._path }));
+                            // } catch (error) {}
 
                         }
                     } catch (err) {

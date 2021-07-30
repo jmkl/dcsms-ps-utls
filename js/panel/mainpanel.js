@@ -19,7 +19,7 @@ document.addEventListener("mousemove", async(e) => {
 })
 trigger.addEventListener("mouseleave", (e) => {
 
-})
+});
 
 
 
