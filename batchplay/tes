@@ -1,0 +1,19 @@
+{
+    "mode": "batchplay",
+    "commands": [{
+        "_obj": "set",
+        "_target": [{
+            "_ref": "textLayer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "to": {
+            "_obj": "textLayer",
+            "textKey": "New Text"
+        },
+        "_isCommand": true,
+        "_options": {
+            "dialogOptions": "dontDisplay"
+        }
+    }]
+}

@@ -1,0 +1,29 @@
+{
+    "mode": "batchplay",
+    "commands": [{
+        "_obj": "select",
+        "_target": [{
+            "_ref": "freeformPenTool"
+        }],
+        "dontRecord": true,
+        "forceNotify": true,
+        "_isCommand": true
+    }, {
+        "_obj": "set",
+        "_target": [{
+            "_ref": "color",
+            "_property": "foregroundColor"
+        }],
+        "to": {
+            "_obj": "HSBColorClass",
+            "hue": {
+                "_unit": "angleUnit",
+                "_value": 80
+            },
+            "saturation": 100,
+            "brightness": 100
+        },
+        "source": "swatchesReplace",
+        "_isCommand": true
+    }]
+}
