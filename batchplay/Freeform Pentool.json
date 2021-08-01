@@ -1,0 +1,53 @@
+{
+    "icon": "edit",
+    "mode": "mix",
+    "tasks": [{
+
+        "mode": "batchplay",
+        "commands": [{
+            "_obj": "select",
+            "_target": [{
+                "_ref": "freeformPenTool"
+            }],
+            "dontRecord": true,
+            "forceNotify": true,
+            "_isCommand": true
+        }, {
+            "_obj": "set",
+            "_target": [{
+                "_ref": "freeformPenTool"
+            }],
+            "to": {
+                "_obj": "shapeStyle",
+                "strokeStyle": {
+                    "_obj": "strokeStyle",
+                    "strokeStyleVersion": 2,
+                    "strokeEnabled": false
+                }
+            },
+            "_isCommand": true
+        }, {
+            "_obj": "set",
+            "_target": [{
+                "_ref": "color",
+                "_property": "foregroundColor"
+            }],
+            "to": {
+                "_obj": "HSBColorClass",
+                "hue": {
+                    "_unit": "angleUnit",
+                    "_value": 12
+                },
+                "saturation": 100,
+                "brightness": 100
+            },
+            "source": "swatchesReplace",
+            "_isCommand": true
+        }]
+
+    }, {
+
+        "mode": "commandid",
+        "id": 3404
+    }]
+}

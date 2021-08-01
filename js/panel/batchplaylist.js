@@ -43,6 +43,18 @@ async function bpList() {
                                 await runCommandID(cmd.id)
                                 break;
                             default:
+                            case "mix":
+                                const tasks = cmd.tasks;
+                                for (t of tasks) {
+                                    console.log(t.mode);
+                                    if (t.mode == "batchplay") {
+                                        await runbatchPlay(...t.commands)
+                                    } else if (t.mode == "command") {
+                                        await runCommand(t.string)
+                                    } else if (t.mode == "commandid") {
+                                        await runCommandID(t.id);
+                                    }
+                                }
                                 break;
                         }
 

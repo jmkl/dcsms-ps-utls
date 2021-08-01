@@ -13,7 +13,8 @@ const TOKEN = {
     NAUFAL: "Folder Naufal",
     REFLY: "Folder Refly",
     NENO: "Folder Neno",
-    BATCHPLAY: "Folder BatchPlay"
+    BATCHPLAY: "Folder BatchPlay",
+    BAHAN: "Folder Bahan"
 
 };
 

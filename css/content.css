@@ -423,3 +423,32 @@
     right: 10px;
     border-radius: 20px;
 }
+
+.bahan-list {
+    margin: 0;
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    margin-top: 10px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.bahan-thumb {
+    border: solid 2px rgba(0, 106, 255, 0.0);
+    cursor: pointer;
+    flex: 0 1 calc((92%/3));
+    height: 80px;
+    width: 100%;
+    border-radius: 8px;
+    margin: 2px;
+    object-fit: contain;
+}
+
+.bahan-thumb:hover {
+    border: solid 2px rgb(0, 170, 255);
+}
+
+.bahan-thumb:active {
+    border: solid 2px rgb(132, 0, 255);
+}

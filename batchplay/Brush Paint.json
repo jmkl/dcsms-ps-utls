@@ -1,0 +1,13 @@
+{
+    "mode": "batchplay",
+    "icon": "broom",
+    "commands": [{
+        "_obj": "select",
+        "_target": [{
+            "_ref": "brush",
+            "_name": "Hello_1"
+        }],
+        "_isCommand": true
+
+    }]
+}

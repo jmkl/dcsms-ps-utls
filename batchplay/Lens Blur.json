@@ -1,0 +1,29 @@
+{
+    "icon": "burn",
+    "mode": "batchplay",
+    "commands": [{
+        "_obj": "$Bokh",
+        "$BkDi": {
+            "_enum": "$BtDi",
+            "_value": "$BeIn"
+        },
+        "$BkDp": 0,
+        "$BkDs": false,
+        "$BkIs": {
+            "_enum": "$BtIs",
+            "_value": "$BeS6"
+        },
+        "$BkIb": 10,
+        "$BkIc": 0,
+        "$BkIr": 0,
+        "$BkSb": 6,
+        "$BkSt": 255,
+        "$BkNa": 1,
+        "$BkNt": {
+            "_enum": "$BtNt",
+            "_value": "$BeNu"
+        },
+        "$BkNm": false,
+        "_isCommand": true
+    }]
+}

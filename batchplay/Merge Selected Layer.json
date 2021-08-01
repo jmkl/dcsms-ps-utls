@@ -1,0 +1,60 @@
+{
+    "icon": "film",
+    "mode": "batchplay",
+    "commands": [{
+        "_obj": "duplicate",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "_isCommand": true
+    }, {
+        "_obj": "mergeLayersNew",
+        "_isCommand": true
+    }, {
+        "_obj": "set",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "to": {
+            "_obj": "layer",
+            "name": "rawmebitch"
+        },
+        "_isCommand": true
+    }, {
+        "_obj": "crop",
+        "to": {
+            "_obj": "rectangle",
+            "top": {
+                "_unit": "pixelsUnit",
+                "_value": 0
+            },
+            "left": {
+                "_unit": "pixelsUnit",
+                "_value": 0
+            },
+            "bottom": {
+                "_unit": "pixelsUnit",
+                "_value": 720
+            },
+            "right": {
+                "_unit": "pixelsUnit",
+                "_value": 1280
+            }
+        },
+        "angle": {
+            "_unit": "angleUnit",
+            "_value": 0
+        },
+        "delete": true,
+        "cropAspectRatioModeKey": {
+            "_enum": "cropAspectRatioModeClass",
+            "_value": "pureAspectRatio"
+        },
+        "constrainProportions": false,
+        "_isCommand": true
+    }]
+}

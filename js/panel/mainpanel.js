@@ -146,3 +146,4 @@ for (i = 0; i < accHD.length; i++) {
 }
 
 const textitems = require("./js/panel/textitems.js")
+require("./js/panel/bahan.js")

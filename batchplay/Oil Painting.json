@@ -1,0 +1,299 @@
+{
+    "icon": "feather",
+    "mode": "batchplay",
+    "commands": [{
+        "_obj": "duplicate",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "version": 5,
+        "_isCommand": true
+    }, {
+        "_obj": "newPlacedLayer",
+        "_isCommand": true
+    }, {
+        "_obj": "rasterizeLayer",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "_isCommand": true
+    }, {
+        "_obj": "set",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "to": {
+            "_obj": "layer",
+            "name": "free_draw"
+        },
+        "_isCommand": true
+    }, {
+        "_obj": "adaptCorrect",
+        "shadowMode": {
+            "_obj": "adaptCorrectTones",
+            "amount": {
+                "_unit": "percentUnit",
+                "_value": 10
+            },
+            "width": {
+                "_unit": "percentUnit",
+                "_value": 50
+            },
+            "radius": 30
+        },
+        "highlightMode": {
+            "_obj": "adaptCorrectTones",
+            "amount": {
+                "_unit": "percentUnit",
+                "_value": 2
+            },
+            "width": {
+                "_unit": "percentUnit",
+                "_value": 50
+            },
+            "radius": 30
+        },
+        "blackClip": 0.01,
+        "whiteClip": 0.01,
+        "center": 0,
+        "colorCorrection": 20,
+        "_isCommand": true
+    }, {
+        "_obj": "copyToLayer",
+        "_isCommand": true
+    }, {
+        "_obj": "set",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "to": {
+            "_obj": "layer",
+            "name": "free_oil"
+        },
+        "_isCommand": true
+    }, {
+        "_obj": "set",
+        "_target": [{
+            "_ref": "layer",
+            "_enum": "ordinal",
+            "_value": "targetEnum"
+        }],
+        "to": {
+            "_obj": "layer",
+            "mode": {
+                "_enum": "blendMode",
+                "_value": "softLight"
+            }
+        },
+        "_isCommand": true
+    }, {
+        "_obj": "highPass",
+        "radius": {
+            "_unit": "pixelsUnit",
+            "_value": 0.8
+        },
+        "_isCommand": true
+    }, {
+        "_obj": "select",
+        "_target": [{
+            "_ref": "layer",
+            "_name": "free_draw"
+        }],
+        "selectionModifier": {
+            "_enum": "selectionModifierType",
+            "_value": "addToSelectionContinuous"
+        },
+        "makeVisible": false,
+        "_isCommand": true
+    }, {
+        "_obj": "mergeLayersNew",
+        "_isCommand": true
+    }, {
+        "_obj": "curves",
+        "presetKind": {
+            "_enum": "presetKindType",
+            "_value": "presetKindCustom"
+        },
+        "adjustment": [{
+            "_obj": "curvesAdjustment",
+            "channel": {
+                "_ref": "channel",
+                "_enum": "channel",
+                "_value": "composite"
+            },
+            "curve": [{
+                    "_obj": "paint",
+                    "horizontal": 0,
+                    "vertical": 0
+                },
+                {
+                    "_obj": "paint",
+                    "horizontal": 62,
+                    "vertical": 52
+                },
+                {
+                    "_obj": "paint",
+                    "horizontal": 193,
+                    "vertical": 201
+                },
+                {
+                    "_obj": "paint",
+                    "horizontal": 255,
+                    "vertical": 255
+                }
+            ]
+        }],
+        "_isCommand": true
+    }, {
+        "_obj": "unsharpMask",
+        "amount": {
+            "_unit": "percentUnit",
+            "_value": 125
+        },
+        "radius": {
+            "_unit": "pixelsUnit",
+            "_value": 2
+        },
+        "threshold": 1,
+        "_isCommand": true
+    }, {
+        "_obj": "diffuse",
+        "mode": {
+            "_enum": "diffuseMode",
+            "_value": "anisotropic"
+        },
+        "$FlRs": 48949291,
+        "_isCommand": true
+    }, {
+        "_obj": "denoise",
+        "colorNoise": {
+            "_unit": "percentUnit",
+            "_value": 0
+        },
+        "sharpen": {
+            "_unit": "percentUnit",
+            "_value": 0
+        },
+        "removeJPEGArtifact": false,
+        "channelDenoise": [{
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "composite"
+                },
+                "amount": 10,
+                "edgeFidelity": 0
+            },
+            {
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "red"
+                },
+                "amount": 0
+            },
+            {
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "grain"
+                },
+                "amount": 0
+            },
+            {
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "blue"
+                },
+                "amount": 0
+            }
+        ],
+        "preset": "Default",
+        "_isCommand": true
+    }, {
+        "_obj": "smartSharpen",
+        "presetKind": {
+            "_enum": "presetKindType",
+            "_value": "presetKindCustom"
+        },
+        "useLegacy": true,
+        "amount": {
+            "_unit": "percentUnit",
+            "_value": 50
+        },
+        "radius": {
+            "_unit": "pixelsUnit",
+            "_value": 0.7
+        },
+        "moreAccurate": false,
+        "blur": {
+            "_enum": "blurType",
+            "_value": "gaussianBlur"
+        },
+        "_isCommand": true
+    }, {
+        "_obj": "denoise",
+        "colorNoise": {
+            "_unit": "percentUnit",
+            "_value": 44
+        },
+        "sharpen": {
+            "_unit": "percentUnit",
+            "_value": 82
+        },
+        "removeJPEGArtifact": false,
+        "channelDenoise": [{
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "composite"
+                },
+                "amount": 5,
+                "edgeFidelity": 30
+            },
+            {
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "red"
+                },
+                "amount": 0
+            },
+            {
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "grain"
+                },
+                "amount": 0
+            },
+            {
+                "_obj": "channelDenoiseParams",
+                "channel": {
+                    "_ref": "channel",
+                    "_enum": "channel",
+                    "_value": "blue"
+                },
+                "amount": 0
+            }
+        ],
+        "preset": "Default",
+        "_isCommand": true
+    }]
+}

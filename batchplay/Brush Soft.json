@@ -1,0 +1,12 @@
+{
+    "icon": "circle",
+    "mode": "batchplay",
+    "commands": [{
+        "_obj": "select",
+        "_target": [{
+            "_ref": "brush",
+            "_name": "Soft Round"
+        }],
+        "_isCommand": true
+    }]
+}
