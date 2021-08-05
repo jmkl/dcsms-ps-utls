@@ -434,7 +434,7 @@
     overflow-y: auto;
 }
 
-.bahan-thumb {
+.bahan-parent {
     border: solid 2px rgba(0, 106, 255, 0.0);
     cursor: pointer;
     flex: 0 1 calc((92%/3));
@@ -442,13 +442,36 @@
     width: 100%;
     border-radius: 8px;
     margin: 2px;
-    object-fit: contain;
+    position: relative;
+    align-items: center;
 }
 
-.bahan-thumb:hover {
+.bahan-parent img {
+    object-fit: contain;
+    height: 80px;
+    width: 100%;
+    position: absolute;
+    pointer-events: none;
+}
+
+.bahan-parent .bahan-label {
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: .85em;
+    color: white;
+    overflow: hidden;
+}
+
+.bahan-parent:hover {
     border: solid 2px rgb(0, 170, 255);
 }
 
-.bahan-thumb:active {
+.bahan-parent:active {
     border: solid 2px rgb(132, 0, 255);
 }

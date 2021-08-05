@@ -159,10 +159,14 @@ const alltab = document.querySelectorAll(".sp-tab");
 // SECTION Hotkey Event
 
 document.addEventListener("keydown", async(event) => {
+
     if (event.key == "`") {
         moveMarker(async(button) => {
             button.click();
         }, false, alltab);
+    }
+    if (event.key == "F1") {
+        document.getElementById("save").click();
     }
     if (event.key == "~") {
 

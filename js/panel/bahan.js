@@ -45,20 +45,56 @@ async function loadBahan() {
         while (listbahan.firstChild) listbahan.removeChild(listbahan.firstChild);
         for (s of str) {
             if (allpsb.includes(s.name + ".psb")) {
+                const label = document.createElement("sp-label");
+                const div = document.createElement("div")
+                div.className = "bahan-parent"
+                label.className = "bahan-label"
                 const img = document.createElement("img");
                 img.className = "bahan-thumb";
                 img.setAttribute("src", `data:image/png;base64,${s.image64}`);
                 img.setAttribute("value", s.name);
-                listbahan.appendChild(img);
+                label.innerText = (s.name);
+                div.appendChild(img);
+                div.appendChild(label)
+                listbahan.appendChild(div);
 
             }
         }
 
     }).catch((err) => { console.log(err) })
 
-    Array.from(document.querySelectorAll(".bahan-thumb")).forEach(imgbahan => {
+    Array.from(document.querySelectorAll(".bahan-parent")).forEach(imgbahan => {
+        imgbahan.addEventListener("mouseover", () => {
+
+            const lbl = imgbahan.childNodes[1];
+            lbl.style.display = "flex";
+
+        })
+        imgbahan.addEventListener("mouseout", () => {
+
+            const lbl = imgbahan.childNodes[1];
+            lbl.style.display = "none";
+
+        })
+        imgbahan.addEventListener("contextmenu", async() => {
+            const nama = imgbahan.childNodes[1].innerText;
+            const token = await folderbahan.getEntry(`${nama}.psb`);
+            websocket.sendMessage(JSON.stringify({
+                type: "deletethumb",
+                fromserver: false,
+                data: await token.nativePath
+            }));
+            websocket.websocket.onmessage = evt => {
+                const result = JSON.parse(evt.data);
+                if (result.fromserver && result.type == "deletethumb") {
+                    loadBahan();
+                }
+            }
+
+        })
+
         imgbahan.addEventListener("click", async(e) => {
-            const nama = e.target.getAttribute("value");
+            const nama = imgbahan.childNodes[1].innerText;
             const token = await folderbahan.getEntry(`${nama}.psb`);
             const result = await require("photoshop").action.batchPlay([{
                 _obj: "placeEvent",
@@ -66,6 +102,7 @@ async function loadBahan() {
                     _path: await fs.createSessionToken(token),
                     _kind: "local",
                 },
+                "linked": true
             }], {
                 "synchronousExecution": true,
                 "modalBehavior": "fail"
@@ -98,8 +135,13 @@ tblbahan.addEventListener("click", async function(e) {
             })
         }
         cmd.push({
-            "_obj": "placedLayerExportContents",
-            "null": {
+            "_obj": "placedLayerConvertToLinked",
+            "_target": [{
+                "_ref": "layer",
+                "_enum": "ordinal",
+                "_value": "targetEnum"
+            }],
+            "using": {
                 "_path": token,
                 "_kind": "local"
             },
