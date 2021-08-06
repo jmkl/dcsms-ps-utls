@@ -168,6 +168,7 @@ async function findObj(entireObj, keyToFind) {
     return foundObj;
 }
 
+
 async function postCreateThumbnail(result) {
     const path = await findObj(result, "_path");
     websocket.sendMessage(JSON.stringify({
@@ -181,4 +182,5 @@ async function postCreateThumbnail(result) {
             loadBahan();
         }
     }
+
 }

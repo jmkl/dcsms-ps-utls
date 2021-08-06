@@ -12,6 +12,7 @@ async function runCommandID(id) {
     });
 }
 async function runbatchPlay(...cmd) {
+
     return await batchPlay([...cmd], {
         "synchronousExecution": true,
         modalBehavior: "fail"

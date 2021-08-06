@@ -1,0 +1,41 @@
+{
+    "icon": "dna",
+    "mode": "mix",
+    "tasks": [{
+        "mode": "batchplay",
+        "commands": [{
+            "_obj": "mergeVisible",
+            "duplicate": true
+        }, {
+            "_obj": "make",
+            "_target": [{
+                "_ref": "snapshotClass"
+            }],
+            "from": {
+                "_ref": "historyState",
+                "_property": "currentHistoryState"
+            },
+            "_isCommand": true,
+            "_options": {
+                "dialogOptions": "dontDisplay"
+            }
+        }, {
+            "_obj": "set",
+            "_target": [{
+                "_ref": "historyState",
+                "_property": "historyBrushSource"
+            }],
+            "to": {
+                "_ref": "snapshotClass",
+                "_name": "Snapshot 1"
+            },
+            "_isCommand": true
+        }, {
+            "_obj": "select",
+            "_target": [{
+                "_ref": "artBrushTool"
+            }],
+            "_isCommand": true
+        }]
+    }]
+}

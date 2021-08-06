@@ -165,7 +165,7 @@ document.addEventListener("keydown", async(event) => {
             button.click();
         }, false, alltab);
     }
-    if (event.key == "F1") {
+    if (event.key == "F5") {
         document.getElementById("save").click();
     }
     if (event.key == "~") {
@@ -189,7 +189,8 @@ document.addEventListener("keydown", async(event) => {
             });
         }
     }
-    if (["1", "2", "3"].includes(event.key)) {
+    if (["1", "2", "3", "4"].includes(event.key)) {
+        console.log(parseInt((event.key).replace("F", "")) - 1)
         alltab[parseInt(event.key) - 1].click();
     }
 

@@ -26,7 +26,7 @@ class MyWebSocket {
     }
     dothis(element, listener) {
         this.websocket.onopen = evt => {
-            console.log(evt);
+
             element.style.background = "green";
         }
         this.websocket.onclose = evt => {

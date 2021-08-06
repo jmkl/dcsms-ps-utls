@@ -35,7 +35,7 @@ function moveEngineMarker(action, direction, arrdt) {
 }
 searchSwitch();
 
-function searchSwitch() {
+function searchSwitch(isup) {
     const engine = document.querySelectorAll(".searchengine");
     for (e of engine) {
         e.style.display = "none";
@@ -46,13 +46,12 @@ function searchSwitch() {
         searchEngine = button.getAttribute("engine");
         if (searchEngine == SE.google)
             islarge.style.display = "flex";
-    }, false, engine);
+    }, isup, engine);
 }
 
 searchTextField.addEventListener("keyup", (e) => {
-    if (e.key == "Tab") {
-        e.preventDefault();
-        searchSwitch();
+    if (e.key == "ArrowUp" || e.key == "ArrowDown") {
+        searchSwitch(e.key == "ArrowUp" ? true : false);
     } else if (e.key == "Enter") {
         searchTextField.setAttribute("disabled")
         doSearchImages(searchTextField.value)

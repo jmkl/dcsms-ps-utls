@@ -524,3 +524,6 @@ document.addEventListener("keydown", async(e) => {
             await runbatchPlay(cmd.scaleLayer(105));
     }
 })
+
+
+console.log(require("uxp").versions.uxp)
