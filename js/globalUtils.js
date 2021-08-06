@@ -1,5 +1,5 @@
 const showYesNoDialog = async(title, content, action) => {
-    const theDialog = document.createElement("dialog");
+    const theDialog = document.createElement("sp-dialog");
     const theForm = document.createElement("form");
     const theHeading = document.createElement("sp-heading");
     const theDivider = document.createElement("sp-divider");
