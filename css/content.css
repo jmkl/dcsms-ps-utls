@@ -373,7 +373,10 @@
 
 .textlist-item .textitem {
     flex: 1 1 70%;
-    text-align: right;
+    text-align: left;
+    height: 25px;
+    align-self: center;
+    font-size: x-small;
 }
 
 .textlist-item .textsize {

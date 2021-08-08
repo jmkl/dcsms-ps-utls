@@ -15,9 +15,10 @@ function createTextListItem(data) {
     const item = document.createElement("div");
     const _cblayer = document.createElement("sp-checkbox")
     item.className = "textlist-item";
-    const textitem = document.createElement("sp-textfield");
+    const textitem = document.createElement("input");
     const textsize = document.createElement("div");
     textitem.className = "textitem";
+
     textitem.setAttribute("size", "XS")
     textsize.className = "textsize";
     textsize.classList.add(data[2].toString());
@@ -186,13 +187,15 @@ var listener = (e, d) => {
     if (e == "move") {
         rearrangeLayer();
     }
-    if ((e == "select" && d._target[0]._ref == "document") || e == "close" || e == "delete") {
+    if ((e == "select" && d._target[0]._ref == "document") || e == "close" || e == "delete" || (e == "make" && d.new._obj == "document")) {
         try {
             getTextLayerData();
+            console.log(d);
         } catch (err) {
             console.log(err);
         }
     }
+
 };
 
 require("photoshop").action.addNotificationListener(
@@ -312,7 +315,7 @@ divider.className = "btn-menu-divider";
                                     const result = await runbatchPlay(cmd.setText(newtext._id, text));
                                     await runbatchPlay(cmd.selectLayer(newtext._id)).then(async() => {
                                         await runbatchPlay(cmd.moveLayer(top, 0));
-                                        top += newtext.bounds.bottom - newtext.bounds.top;
+                                        top += newtext.boundsNoEffects.bottom - newtext.boundsNoEffects.top;
                                     })
 
 

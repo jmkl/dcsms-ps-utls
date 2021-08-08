@@ -4,12 +4,7 @@
     "description": "uxp photoshop plugin\r what is it?",
     "main": "index.js",
     "scripts": {
-        "runemall": "uxp plugin load &; uxp plugin watch &;",
-        "server": "uxp service start &",
-        "load": "uxp.cmd plugin load",
-        "watch": "uxp.cmd plugin watch &",
-        "debug": "Set-Location -Path .; uxp plugin debug --apps",
-        "runall": "concurrently \"npm run server\" \"npm run load\" \"npm run watch\"",
+        "runme": "pwsh debug.ps1",
         "build": "uxp plugin package --outputPath dist"
     },
     "repository": {

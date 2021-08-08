@@ -82,20 +82,38 @@ body {
 
 .batchplay-group {
     display: flex;
-    flex-flow: row wrap;
+    position: relative;
     height: auto;
-    width: 100%;
+    justify-content: left;
     max-height: 180px;
-    overflow-y: scroll;
-    justify-content: flex-start;
+    overflow: auto;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.batchplay-group::-webkit-scrollbar {
+    display: none;
 }
 
 .batchplay-group div {
-    flex: 2%!important;
-    border: solid 1px rgb(255, 255, 255, 0.05)!important;
+    flex: 2 1 28px;
+    border: solid 1px rgb(255, 255, 255, 0.05);
     cursor: pointer;
-    font-weight: bolder;
-    font-size: xx-small;
+    padding: 5px 10px;
+    height: 100%;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-batchplay .a {
+    fill: #fff;
+}
+
+.btn-batchplay:hover .a {
+    fill: rgb(16, 144, 208);
+    transform: translate(0, 100px);
 }
 
 .bp-loading {
