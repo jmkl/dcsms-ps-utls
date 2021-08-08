@@ -16,5 +16,8 @@
     "bugs": {
         "url": "https://github.com/jmkl/dcsms-ps-utls/issues"
     },
-    "homepage": "https://github.com/jmkl/dcsms-ps-utls#readme"
+    "homepage": "https://github.com/jmkl/dcsms-ps-utls#readme",
+    "dependencies": {
+        "archiver": "^5.3.0"
+    }
 }

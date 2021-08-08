@@ -1,16 +1,22 @@
 async function getToken(key, reset, onlycheck) {
+
     if (reset != undefined && reset) {
         localStorage.removeItem(key);
     }
 
-    const pte = localStorage.getItem(key);
+    let pte;
+
     let entryobject;
     try {
+        pte = localStorage.getItem(key);
         entryobject = await fs.getEntryForPersistentToken(pte);
     } catch (error) {
+
+
         if (onlycheck != undefined && onlycheck) {
             return;
         } else {
+
             await showYesNoDialog(
                 "Picking Folder from TOKEN",
                 `for : ${key}`,

@@ -9,87 +9,62 @@
     }],
     "manifestVersion": 4,
     "entrypoints": [{
-        "type": "command",
-        "id": "reloadPlugin",
-        "label": "Reload Plugin"
-    }, {
-        "type": "panel",
-        "id": "dcsmsPanel",
-        "minimumSize": {
-            "width": 315,
-            "height": 500
+            "type": "command",
+            "id": "reloadPlugin",
+            "label": "Reload Plugin"
         },
-        "maximumSize": {
-            "width": 2000,
-            "height": 2000
-        },
-        "preferredDockedSize": {
-            "width": 315,
-            "height": 500
-        },
-        "preferredFloatingSize": {
-            "width": 315,
-            "height": 500
-        },
-        "label": {
-            "default": "dcsms Utility Pack"
-        },
-        "icons": [{
-                "width": 23,
-                "height": 23,
-                "path": "icons/dark.png",
-                "scale": [
-                    1,
-                    2
-                ],
-                "theme": [
-                    "darkest",
-                    "dark",
-                    "medium"
-                ]
+        {
+            "type": "panel",
+            "id": "dcsmsPanel",
+            "minimumSize": {
+                "width": 315,
+                "height": 500
             },
-            {
-                "width": 23,
-                "height": 23,
-                "path": "icons/light.png",
-                "scale": [
-                    1,
-                    2
-                ],
-                "theme": [
-                    "lightest",
-                    "light"
-                ]
-            }
-        ]
-
-    }],
+            "maximumSize": {
+                "width": 2000,
+                "height": 2000
+            },
+            "preferredDockedSize": {
+                "width": 315,
+                "height": 500
+            },
+            "preferredFloatingSize": {
+                "width": 315,
+                "height": 500
+            },
+            "label": {
+                "default": "dcsms Utility Pack"
+            },
+            "icons": [{
+                    "width": 23,
+                    "height": 23,
+                    "path": "icons/dark.png",
+                    "scale": [1, 2],
+                    "theme": ["darkest", "dark", "medium"]
+                },
+                {
+                    "width": 23,
+                    "height": 23,
+                    "path": "icons/light.png",
+                    "scale": [1, 2],
+                    "theme": ["lightest", "light"]
+                }
+            ]
+        }
+    ],
     "icons": [{
             "width": 23,
             "height": 23,
             "path": "icons/dark.png",
-            "scale": [
-                1,
-                2
-            ],
-            "theme": [
-                "darkest",
-                "dark",
-                "medium"
-            ]
+            "scale": [1, 2],
+            "theme": ["darkest", "dark", "medium"]
         },
         {
             "width": 23,
             "height": 23,
             "path": "icons/light.png",
-            "scale": [
-                1,
-                2
-            ],
-            "theme": [
-                "lightest",
-                "light"
-            ],
+            "scale": [1, 2],
+            "theme": ["lightest", "light"],
             "species": ["pluginList"]
         }
     ]

@@ -11,6 +11,7 @@ class ColorUtils {
 
     readColor() {
         const clr = localStorage.getItem("COLOR");
+        if (clr == null) { return; }
         for (let c of JSON.parse(clr)) {
             this.createPreview(`rgb(${c[0]},${c[1]},${c[2]})`, [c[0], c[1], c[2]]);
         }

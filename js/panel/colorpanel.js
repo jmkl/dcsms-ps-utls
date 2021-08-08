@@ -165,7 +165,7 @@ document.addEventListener("keydown", async(event) => {
             button.click();
         }, false, alltab);
     }
-    if (event.key == "F5") {
+    if (event.key == "F1") {
         document.getElementById("save").click();
     }
     if (event.key == "~") {

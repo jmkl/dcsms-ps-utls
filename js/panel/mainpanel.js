@@ -36,7 +36,6 @@ document.getElementById("content").value = "Lorem ipsum\r$dolor sit amet\rconsec
 
 document.getElementById("btn-template").addEventListener("click", async(e) => {
     token = await getToken(TOKEN.TEMPLATE, false, false);
-    console.log(token);
     const templates = (await token.getEntries())
         .filter((tmplt) => tmplt.name.indexOf("psd") > 0);
     addElementToDropdown(templates)

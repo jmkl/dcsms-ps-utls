@@ -1,53 +1,73 @@
-const showYesNoDialog = async(title, content, action) => {
-    const theDialog = document.createElement("sp-dialog");
-    const theForm = document.createElement("form");
-    const theHeading = document.createElement("sp-heading");
-    const theDivider = document.createElement("sp-divider");
-    const theBody = document.createElement("sp-body");
-    const theFooter = document.createElement("footer");
-    const theActionButton = document.createElement("sp-button");
-    const theCancelButton = document.createElement("sp-button");
-
-    theHeading.textContent = title;
-    theDivider.setAttribute("size", "large");
-    theBody.textContent = content;
-    theActionButton.textContent = "Ok";
-    theActionButton.setAttribute("variant", "cta");
-    theCancelButton.textContent = "Cancel";
-    theCancelButton.setAttribute("quiet", "true");
-    theCancelButton.setAttribute("variant", "secondary");
-
-    theActionButton.onclick = () => {
-        theDialog.close();
+async function showYesNoDialogx(title, content, action) {
+    const dialog = document.querySelector("#sp-dialog");
+    const ttl = document.querySelector("#dialog-title");
+    const desc = document.querySelector("#dialog-desc");
+    const button = document.querySelector("#dialog-button");
+    ttl.textContent = title;
+    desc.textContent = content;
+    button.addEventListener("click", (e) => {
+        dialog.removeAttribute("open");
         action(true);
-    };
-    theCancelButton.onclick = () => {
-        theDialog.close();
-        action(false);
-    };
+    })
+    dialog.setAttribute("open");
+}
 
-    theFooter.appendChild(theCancelButton);
-    theFooter.appendChild(theActionButton);
+const showYesNoDialog = async(title, content, action) => {
 
-    theForm.appendChild(theHeading);
-    theForm.appendChild(theDivider);
-    theForm.appendChild(theBody);
-    theForm.appendChild(theFooter);
-    theDialog.appendChild(theForm);
-    document.body.appendChild(theDialog);
 
-    const r = await theDialog.uxpShowModal({
-        title: "Hello",
-        resize: "none", // "both", "horizontal", "vertical",
-        size: {
-            width: 480,
-            height: 240,
-        },
-    });
-    theDialog.remove();
+    try {
+        const theDialog = document.createElement("dialog");
+        const theForm = document.createElement("form");
+        const theHeading = document.createElement("sp-heading");
+        const theDivider = document.createElement("sp-divider");
+        const theBody = document.createElement("sp-body");
+        const theFooter = document.createElement("footer");
+        const theActionButton = document.createElement("sp-button");
+        const theCancelButton = document.createElement("sp-button");
+
+        theHeading.textContent = title;
+        theDivider.setAttribute("size", "large");
+        theBody.textContent = content;
+        theActionButton.textContent = "Ok";
+        theActionButton.setAttribute("variant", "cta");
+        theCancelButton.textContent = "Cancel";
+        theCancelButton.setAttribute("quiet", "true");
+        theCancelButton.setAttribute("variant", "secondary");
+
+        theActionButton.onclick = () => {
+            theDialog.close();
+            action(true);
+        };
+        theCancelButton.onclick = () => {
+            theDialog.close();
+            action(false);
+        };
+
+        theFooter.appendChild(theCancelButton);
+        theFooter.appendChild(theActionButton);
+
+        theForm.appendChild(theHeading);
+        theForm.appendChild(theDivider);
+        theForm.appendChild(theBody);
+        theForm.appendChild(theFooter);
+        theDialog.appendChild(theForm);
+        document.body.appendChild(theDialog);
+
+        const r = await theDialog.uxpShowModal({
+            title: "Hello",
+            resize: "none", // "both", "horizontal", "vertical",
+            size: {
+                width: 480,
+                height: 240,
+            },
+        });
+        theDialog.remove();
+    } catch (err) {
+        console.error(err)
+    }
 };
 
-async function showDialog(content) {
+async function showDialog(title, content, action) {
     return new Promise(async(resolve, reject) => {
         const dlg = document.querySelector(".dialog");
         dlg.querySelector(".dialog-content").innerText = content;
